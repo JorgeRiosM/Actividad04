@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad04</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 1920,
+        height: 1080,
+        physics: {
+            default: 'arcade',
+            arcade:{
+                gravity:{ y: 150},
+                debug: false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+    
+    var game = new Phaser.Game(config);
+    var player;
+    var enemy;
+    var power;
+
+
+    function preload ()
+    {
+        this.load.image('player','./assets/player/player.png');
+        this.load.image('enemy','./assets/enemy/enemy.png');
+        this.load.image('ground','./assets/ground/wallpaper/HD-wallpaper-pixels-art-ultra-aero-black-earth-pixels.jpg');
+        this.load.image('power','./assets/power/power.png')
+    }
+    
+    function create ()
+    {
+        this.add.image(650,300,'ground');
+
+        player=this.physics.add.sprite(650,300,'player');
+        player.setCollideWorldBounds(true);
+
+        
+    }
+        
+    
+    function update ()
+
+    {
+        var x=0,y;
+        for(y=1;y>0;y=y+1){
+            for(x=0;x<1500;x=x+100){
+                enemy=this.physics.add.sprite(x,0,'enemy');
+                enemy.setCollideWorldBounds(true);
+                x=x+150;
+                setTimeout(200);
+                if(x%5==0){
+                    power=this.physics.add.sprite(x,0,'power');
+                    power.setCollideWorldBounds(true)
+                }
+            }}
+
+        if (cursors.left.isDown)
+    {
+        player.setVelocityX(-160);
+
+        player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(160);
+
+        player.anims.play('right', true);
+    }
+    else
+    {
+        player.setVelocityX(0);
+
+        player.anims.play('turn');
+    }
+
+    if (cursors.up.isDown && player.body.touching.down)
+    {
+        player.setVelocityY(-330);
+    }
+    }
+</script>
+</body>
+</html>
